@@ -8,9 +8,7 @@ export const globalContext=createContext();
 function App() {
   return (
     <globalContext.Provider value={globalStates()}>
-      <div className="App">
-        <Todo/>
-      </div>
+      <Todo/>
     </globalContext.Provider>
   )
 }
