@@ -17,6 +17,11 @@ export default function Todo(){
     const [filteredTask,setFilterTask]=useState(data)
     const [editRowId,setEditRowId]=useState('')
     const [filter,setFilter]=useState('')
+    // to edit tags------------------------
+    const [tagMode,setTagMode]=useState(false)
+    const [tagsList,setTagsList]=useState([])
+    const [currentTag,setCurrentTag]=useState('')
+    //-------------------------------------
 
     const [form] = Form.useForm();
 
@@ -125,7 +130,6 @@ export default function Todo(){
                     {tags.map((tag) => {
                         return (
                             <Tag 
-                                // closable // add this at edit mode
                                 key={tag}>
                                 {tag}
                             </Tag>
@@ -133,13 +137,41 @@ export default function Todo(){
                     })}
                 </>
             ),
-            // onCell:(row) =>({
-            //     row,
-            //     // formiptype: ,
-            //     isedit: editRowId === row.id,
-            //     dataIndex:"tags",
-            //     title:"Tags"
-            // })
+            onCell:(row) =>({
+                row,
+                formiptype: <>
+                            {tagsList.map((tag, index) => {
+                                return (
+                                    <Tag
+                                        key={tag}
+                                        closable
+                                        onClose={() => tagRemoved(tag)}
+                                    >
+                                        {tag}
+                                    </Tag>
+                                );
+                            })}
+                            {tagMode && (
+                                <Input
+                                    type="text"
+                                    value={currentTag}
+                                    onChange={(e) =>setCurrentTag(e.target.value)}
+                                    onBlur={handelTagInput}
+                                    onPressEnter={handelTagInput}
+                                />
+                            )}
+                            {!tagMode && (
+                                <Tag 
+                                    onClick={() => setTagMode(true)} 
+                                    style={{ background: "#fff", borderStyle: "dashed", hover: "#fff" }}>
+                                    <a>Add tag</a>
+                                </Tag>
+                            )}
+                        </>,
+                isedit: editRowId === row.id,
+                dataIndex:"tags",
+                title:"Tags"
+            })
         },
     
         {   title: "Action",
@@ -185,6 +217,19 @@ export default function Todo(){
     
     ]
 
+    function handelTagInput() {
+        if(currentTag !=='' && tagsList.indexOf(currentTag)==-1)
+            setTagsList((oldList)=>{
+                return [...oldList,currentTag]
+            })
+        setCurrentTag('')
+        setTagMode(false)
+    }
+
+    function tagRemoved(removedTag){
+        setTagsList((oldList)=> oldList.filter((tag) => tag!==removedTag ))
+    }
+
     function deleteTask(taskId){
         setTasks((oldTask)=>{
             return oldTask.filter((task)=>{
@@ -194,6 +239,9 @@ export default function Todo(){
             })
             
         })
+        setAddTaskMode(false)
+        setTagsList([])
+        setCurrentTag('')
     }
 
     function editSave(){
@@ -204,10 +252,14 @@ export default function Todo(){
                 const index=oldTask.findIndex((item) => editRowId === item.id)
                 temp.splice(index,1,{
                     ...oldTask[index],
-                    ...data
+                    ...data,
+                    tags:tagsList
                 })
                 return(temp)
             })
+            setAddTaskMode(false)
+            setTagsList([])
+            setCurrentTag('')
             setEditRowId('')
         })
         .catch(console.error)
@@ -225,7 +277,7 @@ export default function Todo(){
                         }}
                         rules={[
                             {
-                                required: true,
+                                required: dataIndex==="tags"?false:true,
                                 message: `Please Input ${title}!`,
                             },
                         ]}
@@ -245,6 +297,7 @@ export default function Todo(){
             dueDate: '',
             ...row,
         });
+        setTagsList(row.tags)
         setEditRowId(row.id)
     }
 
