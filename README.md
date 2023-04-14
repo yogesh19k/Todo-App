@@ -28,6 +28,10 @@ This is a simple Todo App built using React, Vite, and Ant Design Pro Table. The
 3. Start the development server using `npm start` or `yarn start`.
 4. Open the app in your browser and start managing your todos!
 
+## Hosted Site
+
+The app is hosted on Netlify. You can access it [here](https://lucent-crepe-ebb506.netlify.app/).
+
 ## Screenshots
 
 ![Todo App Screenshot](/screenshots/todo-app-screenshot.png)
