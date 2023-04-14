@@ -24,9 +24,11 @@ This is a simple Todo App built using React, Vite, and Ant Design Pro Table. The
 ## Setup Instructions
 
 1. Clone the repository.
-2. Install the dependencies using `npm install` or `yarn install`.
-3. Start the development server using `npm start` or `yarn start`.
-4. Open the app in your browser and start managing your todos!
+2. Install Node.js and npm (Node Package Manager) if you haven't already.
+3. Install Vite globally by running `npm install -g vite` in your terminal.
+4. Install the dependencies using `npm install` or `yarn install` within the project directory.
+5. Start the development server using `npm run dev` or `yarn dev`.
+6. Open the app in your browser and start managing your todos!
 
 ## Hosted Site
 
