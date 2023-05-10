@@ -1,4 +1,4 @@
-# React Todo App using Ant Design Pro Table
+# React Todo App
 
 This is a simple Todo App built using React, Vite, and Ant Design Pro Table. The app allows users to manage their todos by adding, editing, and deleting tasks. The Ant Design Pro Table is used to display the tasks in a clean and organized table format, with options to sort, filter, and paginate the tasks.
 
